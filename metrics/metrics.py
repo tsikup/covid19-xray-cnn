@@ -4,7 +4,7 @@ import json
 import os
 import numpy as np
 
-class ConfusionMatrix():
+class Metics():
     def __init__(self, ground_truth, predictions, config):
         self.config = config
         self.ground_truth = ground_truth
