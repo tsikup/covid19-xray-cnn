@@ -5,10 +5,10 @@ import os
 import numpy as np
 
 class Metrics():
-    def __init__(self, ground_truth, predictions, config):
+    def __init__(self, ground_truth, predictions, prob_predictions, config):
         self.config = config
         self.ground_truth = ground_truth
-        self.predictions = predictions
+        self.prob_predictions = prob_predictions
         self.con_matrix = confusion_matrix(ground_truth, predictions)
         self.tp = float(self.con_matrix[1][1])
         self.fp = float(self.con_matrix[1][0])
@@ -31,7 +31,7 @@ class Metrics():
         return self.tp / (self.tp + self.fp)
 
     def get_auc(self):
-        return roc_auc_score(self.ground_truth, self.predictions)
+        return roc_auc_score(self.ground_truth, self.prob_predictions)
     
     def get_tp(self):
         return self.tp
