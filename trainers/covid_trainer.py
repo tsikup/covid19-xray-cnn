@@ -3,9 +3,9 @@ import os
 from tensorflow.keras.callbacks import ModelCheckpoint, TensorBoard
 
 
-class DRModelTrainer(BaseTrain):
+class COVIDModelTrainer(BaseTrain):
     def __init__(self, model, data, config):
-        super(DRModelTrainer, self).__init__(model, data, config)
+        super(COVIDModelTrainer, self).__init__(model, data, config)
         self.train_generator = data[0]
         self.validation_generator = data[1]
         self.callbacks = []

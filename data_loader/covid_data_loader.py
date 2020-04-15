@@ -3,9 +3,9 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 import warnings
 
-class DRDataLoader(BaseDataLoader):
+class COVIDDataLoader(BaseDataLoader):
     def __init__(self, config):
-        super(DRDataLoader, self).__init__(config)
+        super(COVIDDataLoader, self).__init__(config)
         
         self.train_datagen = ImageDataGenerator(
             samplewise_center = True,
