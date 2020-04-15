@@ -17,7 +17,7 @@ x_ray_view = "PA" # View of X-Ray
 folder = '/home/tsik/Documents/github/covid19-xray/data/covid-chestxray-dataset/' # repo folder
 metadata = os.path.join(folder, 'metadata.csv') # Meta info
 imageDir = os.path.join(folder, 'images') # Directory of images
-outputDir = '/home/tsik/Documents/github/covid19-xray/data/data/covid-19' # Output directory to store selected images
+outputDir = '/home/tsik/Documents/github/covid19-xray/data/data/covid-19.pa' # Output directory to store selected images
 
 metadata_csv = pd.read_csv(metadata)
 
