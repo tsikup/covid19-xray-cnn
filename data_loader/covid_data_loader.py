@@ -47,8 +47,11 @@ class COVIDDataLoader(BaseDataLoader):
             color_mode=self.config.dataset.color_mode)
 
     def get_train_data(self, classes=None):
-            return self.train_generator, self.validation_generator
+        self.config.dataset.batch.train_size = len(self.train_generator)
+        self.config.dataset.batch.val_size = len(self.validation_generator)
+        return self.train_generator, self.validation_generator
 
     def get_test_data(self, classes=None):
-            return self.test_generator
+        self.config.dataset.batch.test_size = len(self.test_generator)
+        return self.test_generator
 
