@@ -1,5 +1,5 @@
 from data_loader.covid_data_loader import COVIDDataLoader
-from models.covid_classification_models import *
+from models.covid import *
 from trainers.covid_trainer import COVIDModelTrainer
 from testers.covid_tester import COVIDModelTester
 from utils.config import process_config

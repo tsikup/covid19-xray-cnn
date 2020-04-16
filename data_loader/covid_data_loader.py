@@ -27,7 +27,7 @@ class COVIDDataLoader(BaseDataLoader):
             class_mode = self.config.dataset.class_mode,
             shuffle = True,
             subset = 'training',
-            color_mode="grayscale")
+            color_mode="rgb")
 
         self.validation_generator = self.train_datagen.flow_from_directory(
             directory = self.config.dataset.train,
@@ -36,7 +36,7 @@ class COVIDDataLoader(BaseDataLoader):
             class_mode = self.config.dataset.class_mode,
             shuffle = True,
             subset = 'validation',
-            color_mode="grayscale")
+            color_mode="rgb")
         
         self.test_generator = self.test_datagen.flow_from_directory(
             directory = self.config.dataset.test,
@@ -44,7 +44,7 @@ class COVIDDataLoader(BaseDataLoader):
             batch_size = self.config.trainer.batch_size,
             class_mode = self.config.dataset.class_mode,
             shuffle = True,
-            color_mode="grayscale")
+            color_mode="rgb")
 
     def get_train_data(self, classes=None):
             return self.train_generator, self.validation_generator
