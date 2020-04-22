@@ -35,7 +35,8 @@
         "train":"/home/tsiknakisn/projects/covid19-xray/data/data/dataset/train",
         "test":"/home/tsiknakisn/projects/covid19-xray/data/data/dataset/test",
         "class_mode": "binary",
-        "classes": [0,1]
+        "classes": [0,1],
+	"color_mode": "grayscale"
     },
     "devices":{
         "gpus":[
