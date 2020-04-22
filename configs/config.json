@@ -15,7 +15,7 @@
         "optimizer": "adam",
         "lr_schedule": "exp",
         "resize_shape": [512,512],
-        "input_shape":[512,512,3]
+        "input_shape":[512,512,1]
     },
     "trainer": {
         "num_epochs": 20,
