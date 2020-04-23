@@ -237,20 +237,17 @@ class COVID_Tsik(BaseModel):
         self.visible = Input(shape=self.input_shape)
 
         # Conv Block 1
-        self.conv1 = Conv2D(32, 3, 3, activation='relu', padding='same')
-        self.pool1 = MaxPooling2D((2,2))
+        self.conv1 = Conv2D(32, 3, 1, activation='relu', padding='same')(self.visible)
+        self.pool1 = MaxPooling2D((2,2))(self.conv1)
         # Conv Block 2
-        self.conv2 = Conv2D(64, 3, 3, activation='relu', padding='same')
-        self.pool2 = MaxPooling2D((2,2))
+        self.conv2 = Conv2D(64, 3, 1, activation='relu', padding='same')(self.pool1)
+        self.pool2 = MaxPooling2D((2,2))(self.conv2)
         # Conv Block 3
-        self.conv3 = Conv2D(128, 3, 3, activation='relu', padding='same')
-        self.pool3 = MaxPooling2D((2,2))
+        self.conv3 = Conv2D(128, 3, 1, activation='relu', padding='same')(self.pool2)
+        self.pool3 = MaxPooling2D((2,2))(self.conv3)
         # Conv Block 4
-        self.conv4 = Conv2D(256, 3, 3, activation='relu', padding='same')
-        self.pool4 = MaxPooling2D((2,2))
+        self.conv4 = Conv2D(256, 3, 1, activation='relu', padding='same')(self.pool3)
 
-        self.feature_output = self.pool4
-        
         self.output = self.classifier(self)
 
         # Define model
@@ -264,8 +261,8 @@ class COVID_Tsik(BaseModel):
               metrics = ["accuracy"])
 
     def get_feature_output(self):
-        return self.feature_output
-        
+        return self.conv4
+
     def predict(self, x):
         return self.model.predict(x)
     
@@ -299,17 +296,14 @@ def TsikClassifier(model):
     # GAP
     model.average_pooling = GlobalAveragePooling2D()(model.get_feature_output())
     # Block 1
-    model.hidden_1 = Dense(1024, activation='relu')(model.average_pooling)
+    model.hidden_1 = Dense(256, activation='relu')(model.average_pooling)
     model.dropout_1 = Dropout(0.25)(model.hidden_1)
     # Block 2
-    model.hidden_2 = Dense(512, activation='relu')(model.dropout_1)
-    model.dropout_2 = Dropout(0.5)(model.hidden_2)
+    model.hidden_2 = Dense(128, activation='relu')(model.dropout_1)
+    model.dropout_2 = Dropout(0.25)(model.hidden_2)
     # Block 3
-    model.hidden_3 = Dense(256, activation='relu')(model.dropout_2)
-    model.dropout_3 = Dropout(0.5)(model.hidden_3)
-    # Block 4
-    model.hidden_4 = Dense(128, activation='relu')(model.dropout_3)
-    model.dropout_4 = Dropout(0.5)(model.hidden_4)
+    model.hidden_3 = Dense(64, activation='relu')(model.dropout_2)
+    model.dropout_3 = Dropout(0.25)(model.hidden_3)
     # Output
-    model.output = Dense(model.output_shape, activation='softmax')(model.dropout_4)
+    model.output = Dense(model.output_shape, activation='softmax')(model.dropout_3)
     return model.output
