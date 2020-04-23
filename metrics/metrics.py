@@ -19,16 +19,16 @@ class Metrics():
         return self.con_matrix
     
     def get_sensitivity(self):
-        return self.tp / (self.tp + self.fn)
+        return self.tp / (self.tp + self.fn + 1e-8)
     
     def get_specificity(self):
-        return self.tn / (self.tn + self.fp)
+        return self.tn / (self.tn + self.fp + 1e-8)
     
     def get_accuracy(self):
-        return (self.tp + self.tn) / (self.tp + self.fn + self.tn + self.fp)
+        return (self.tp + self.tn) / (self.tp + self.fn + self.tn + self.fp + 1e-8)
     
     def get_precision(self):
-        return self.tp / (self.tp + self.fp)
+        return self.tp / (self.tp + self.fp + 1e-8)
 
     def get_auc(self):
         return roc_auc_score(self.ground_truth, self.prob_predictions)
