@@ -57,11 +57,9 @@ def train_kfold(config):
 
     datasetKFold = StratifiedKFold(n_splits=5)
 
-    datasetKFold.get_n_splits(X,y)
-
     idx = 0
     metrics = {}
-    for train_index, test_index in datasetKFold.split(X, y):
+    for train_index, test_index in datasetKFold.split(X, y[:,1]):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
