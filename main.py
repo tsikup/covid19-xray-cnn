@@ -60,7 +60,7 @@ def train_kfold(config):
     datasetKFold.get_n_splits(X,y)
 
     idx = 0
-    metrics = ()
+    metrics = {}
     for train_index, test_index in datasetKFold.split(X, y):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
@@ -84,10 +84,8 @@ def train_kfold(config):
         metrics[idx] = tester.test(save_metrics=False, return_metrics=True)
         idx = idx + 1
     
-    idx = 0
-    for metric in metrics:
+    for idx, metric in enumerate(metrics):
         metric.save('results_{}.json'.format(idx))
-        idx = idx + 1
         
 
 def main():
