@@ -64,9 +64,8 @@ class Metrics():
         print('Results:\n')
         pprint(self.json())
         
-    def save(self):
-        np.save(os.path.join(self.config.results.performance_dir, 'confusion_matrix.npy'), self.get_con_matrix()) # Save confusion matrix
-        with open(os.path.join(self.config.results.performance_dir, 'results.json'), "w") as fp:
+    def save(self, filename='results.json'):
+        with open(os.path.join(self.config.results.performance_dir, filename), "w") as fp:
             results_json = json.dumps(self.json())
             fp.write(results_json)
             fp.close()

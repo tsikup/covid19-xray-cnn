@@ -2,6 +2,7 @@ from base.base_data_loader import BaseDataLoader
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 import warnings
+import os
 
 class COVIDDataLoader(BaseDataLoader):
     def __init__(self, config):
@@ -55,3 +56,27 @@ class COVIDDataLoader(BaseDataLoader):
         self.config.dataset.batch.test_size = len(self.test_generator)
         return self.test_generator
 
+
+class COVIDKFold(BaseDataLoader):
+    def __init__(self, config):
+        super(COVIDKFold, self).__init__(config)
+        
+        self.datagen = ImageDataGenerator(
+            samplewise_center = True,
+            samplewise_std_normalization = True,
+            rotation_range = 15,
+            shear_range = 0.2,
+            zoom_range = 0.2,
+            horizontal_flip = True)
+
+        self.data_generator = self.datagen.flow_from_directory(
+            directory = self.config.dataset.train,
+            target_size = self.config.model.resize_shape,
+            batch_size = self.config.trainer.batch_size,
+            class_mode = self.config.dataset.class_mode,
+            shuffle = True,
+            subset = 'training',
+            color_mode=self.config.dataset.color_mode)
+
+    def get_data(self, classes=None):
+        return self.data_generator

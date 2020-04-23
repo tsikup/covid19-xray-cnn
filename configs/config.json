@@ -2,7 +2,7 @@
     "exp": {
         "name": "inception_covid"
     },
-    "mode": "eval",
+    "mode": "train_kfold",
     "mode_comment": "'eval' or 'train'",
     "tester": {
         "checkpoint_path": "experiments/inception_covid/checkpoints/2020-04-23-11-16/inception_covid-16-0.00.hdf5"
@@ -19,9 +19,10 @@
     },
     "trainer": {
         "num_epochs": 20,
-        "batch_size": 8,
-        "validation_split": 0.1,
-        "verbose_training": 1
+        "batch_size": 287,
+        "validation_split": 0,
+        "verbose_training": 1,
+        "callbacks": false
     },
     "callbacks": {
         "checkpoint_monitor": "val_loss",
@@ -32,8 +33,8 @@
         "tensorboard_write_graph": true
     },
     "dataset": {
-        "train":"/home/tsiknakisn/projects/covid19-xray/data/data/dataset/train",
-        "test":"/home/tsiknakisn/projects/covid19-xray/data/data/dataset/test",
+        "train": "data/data/dataset/all",
+        "test": null,
         "class_mode": "categorical",
         "classes": [0,1],
 	"color_mode": "rgb"
