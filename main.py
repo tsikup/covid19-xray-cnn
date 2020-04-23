@@ -55,7 +55,7 @@ def train_kfold(config):
 
     X,y = data.next()
 
-    datasetKFold = StratifiedKFold(n_splits=5, test_size=0.2, random_state=None)
+    datasetKFold = StratifiedKFold(n_splits=5)
 
     datasetKFold.get_n_splits(X,y)
 
