@@ -51,35 +51,29 @@ def evaluate(config):
 def train_kfold(config):
     print('Create the data generator.')
     data_loader = COVIDKFold(config)
-    data = data_loader.get_data()
-
-    X,y = data.next()
-
-    datasetKFold = StratifiedKFold(n_splits=5)
 
     idx = 0
     metrics = {}
-    for train_index, test_index in datasetKFold.split(X, y[:,1]):
-        X_train, X_test = X[train_index], X[test_index]
-        y_train, y_test = y[train_index], y[test_index]
-
-        config.dataset.batch.train_size = len(X_train)
-        config.dataset.batch.test_size = len(X_test)
-
+    for train_gen, val_gen, test_gen in data_loader.split():
+        print('Split: {}'.format(idx))
         print('Create the model.')
         model = COVID_Model(config)
 
         print('Create the trainer.')
-        trainer = COVIDModelKFoldTrainer(model.model, (X_train, y_train), config)
+        # trainer = COVIDModelKFoldTrainer(model.model, (X_train, y_train), config)
+        trainer = COVIDModelTrainer(model.model, (train_gen, val_gen), config)
 
         print('Start training the model.')
         trainer.train()
         
         print('Create the tester.')
-        tester = COVIDModelTester(model.model, (X_test, y_test), config)
+        # tester = COVIDModelTester(model.model, (X_test, y_test), config)
+        tester = COVIDModelTester(model.model, test_gen, config)
+
 
         print('Test the model.')
         metrics[idx] = tester.test(save_metrics=False, return_metrics=True)
+        metrics[idx].pprint()
         idx = idx + 1
     
     for idx, metric in enumerate(metrics):
