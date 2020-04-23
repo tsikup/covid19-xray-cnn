@@ -1,0 +1,51 @@
+{
+    "exp": {
+        "name": "inception_covid"
+    },
+    "mode": "train_kfold",
+    "mode_comment": "'eval' or 'train'",
+    "tester": {
+        "checkpoint_path": "experiments/inception_covid/checkpoints/2020-04-23-11-16/inception_covid-16-0.00.hdf5"
+    },
+    "model": {
+        "backbone": "inception",
+        "classifier": "zhang",
+        "loss": "categorical_crossentropy",
+        "learning_rate": 0.0001,
+        "optimizer": "adam",
+        "lr_schedule": "exp",
+        "resize_shape": [512,512],
+        "input_shape":[512,512,3]
+    },
+    "trainer": {
+        "num_epochs": 20,
+        "batch_size": 287,
+        "validation_split": 0,
+        "verbose_training": 1,
+        "callbacks": false
+    },
+    "callbacks": {
+        "checkpoint_monitor": "val_loss",
+        "checkpoint_mode": "auto",
+        "checkpoint_save_best_only": true,
+        "checkpoint_save_weights_only": true,
+        "checkpoint_verbose": true,
+        "tensorboard_write_graph": true
+    },
+    "dataset": {
+        "train": "data/data/dataset/all",
+        "test": null,
+        "class_mode": "categorical",
+        "classes": [0,1],
+	"color_mode": "rgb",
+	"n_splits": 5
+    },
+    "devices":{
+        "gpus":[
+            1
+        ],
+        "gpu":{
+            "id":"3"
+        }
+    }
+}
