@@ -5,7 +5,7 @@ from testers.covid_tester import *
 from utils.config import process_config
 from utils.utils import get_args
 from utils.gpus import set_gpus
-from sklearn.model_selection import StratifiedShuffleSplit
+from sklearn.model_selection import StratifiedKFold
 
 import tensorflow as tf
 import os
@@ -55,7 +55,7 @@ def train_kfold(config):
 
     X,y = data.next()
 
-    datasetKFold = StratifiedShuffleSplit(n_splits=5, test_size=0.2, random_state=None)
+    datasetKFold = StratifiedKFold(n_splits=5, test_size=0.2, random_state=None)
 
     datasetKFold.get_n_splits(X,y)
 
