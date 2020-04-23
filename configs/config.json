@@ -2,20 +2,20 @@
     "exp": {
         "name": "inception_covid"
     },
-    "mode": "train",
+    "mode": "eval",
     "mode_comment": "'eval' or 'train'",
     "tester": {
-        "checkpoint_path": ""
+        "checkpoint_path": "experiments/inception_covid/checkpoints/2020-04-23-11-16/inception_covid-16-0.00.hdf5"
     },
     "model": {
         "backbone": "inception",
         "classifier": "zhang",
-        "loss": "binary_crossentropy",
+        "loss": "categorical_crossentropy",
         "learning_rate": 0.0001,
         "optimizer": "adam",
         "lr_schedule": "exp",
         "resize_shape": [512,512],
-        "input_shape":[512,512,1]
+        "input_shape":[512,512,3]
     },
     "trainer": {
         "num_epochs": 20,
@@ -34,9 +34,9 @@
     "dataset": {
         "train":"/home/tsiknakisn/projects/covid19-xray/data/data/dataset/train",
         "test":"/home/tsiknakisn/projects/covid19-xray/data/data/dataset/test",
-        "class_mode": "binary",
+        "class_mode": "categorical",
         "classes": [0,1],
-	"color_mode": "grayscale"
+	"color_mode": "rgb"
     },
     "devices":{
         "gpus":[
