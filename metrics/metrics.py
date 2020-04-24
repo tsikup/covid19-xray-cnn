@@ -32,7 +32,7 @@ class Metrics():
         return self.tp / (self.tp + self.fp + 1e-8)
 
     def get_auc(self):
-        return roc_auc_score(self.categorical_ground_truth, self.prob_predictions)
+        return roc_auc_score(self.categorical_ground_truth, self.prob_predictions, multi_class='ovr')
     
     def get_tp(self):
         return self.tp
