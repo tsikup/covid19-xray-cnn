@@ -46,39 +46,7 @@ def evaluate(config):
     tester = COVIDModelTester(model.model, test_data, config)
     
     print('Test the model.')
-    tester.test()
-
-def train_kfold(config):
-    print('Create the data generator.')
-    data_loader = COVIDKFold(config)
-
-    idx = 0
-    metrics = {}
-    for train_gen, val_gen, test_gen in data_loader.split():
-        print('Split: {}'.format(idx))
-        print('Create the model.')
-        model = COVID_Model(config)
-
-        print('Create the trainer.')
-        # trainer = COVIDModelKFoldTrainer(model.model, (X_train, y_train), config)
-        trainer = COVIDModelTrainer(model.model, (train_gen, val_gen), config)
-
-        print('Start training the model.')
-        trainer.train()
-        
-        print('Create the tester.')
-        # tester = COVIDModelTester(model.model, (X_test, y_test), config)
-        tester = COVIDModelTester(model.model, test_gen, config)
-
-
-        print('Test the model.')
-        metrics[idx] = tester.test(save_metrics=False, return_metrics=True)
-        metrics[idx].pprint()
-        idx = idx + 1
-    
-    for idx, metric in enumerate(metrics):
-        metric.save('results_{}.json'.format(idx))
-        
+    tester.test()   
 
 def main():
     # capture the config path from the run arguments
@@ -102,8 +70,6 @@ def main():
         train(config)
     elif(config.mode == "eval"):
         evaluate(config)
-    elif(config.mode == "train_kfold"):
-        train_kfold(config)
 
 if __name__ == '__main__':
     main()
