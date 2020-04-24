@@ -10,7 +10,7 @@ class Metrics():
         self.ground_truth = ground_truth
         self.prob_predictions = prob_predictions
         self.con_matrix = confusion_matrix(ground_truth, predictions)
-        self.categorical_ground_truth = categorical_ground_truth if categorical_ground_truth else ground_truth
+        self.categorical_ground_truth = categorical_ground_truth if categorical_ground_truth is not None else ground_truth
         self.tp = float(self.con_matrix[1][1])
         self.fp = float(self.con_matrix[1][0])
         self.tn = float(self.con_matrix[0][0])
