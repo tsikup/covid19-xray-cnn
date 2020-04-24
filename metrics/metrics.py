@@ -5,11 +5,12 @@ import os
 import numpy as np
 
 class Metrics():
-    def __init__(self, ground_truth, predictions, prob_predictions, config):
+    def __init__(self, ground_truth, predictions, prob_predictions, config, categorical_ground_truth=None):
         self.config = config
         self.ground_truth = ground_truth
         self.prob_predictions = prob_predictions
         self.con_matrix = confusion_matrix(ground_truth, predictions)
+        self.categorical_ground_truth = categorical_ground_truth if categorical_ground_truth else ground_truth
         self.tp = float(self.con_matrix[1][1])
         self.fp = float(self.con_matrix[1][0])
         self.tn = float(self.con_matrix[0][0])
@@ -31,7 +32,7 @@ class Metrics():
         return self.tp / (self.tp + self.fp + 1e-8)
 
     def get_auc(self):
-        return roc_auc_score(self.ground_truth, self.prob_predictions)
+        return roc_auc_score(self.categorical_ground_truth, self.prob_predictions)
     
     def get_tp(self):
         return self.tp
@@ -59,7 +60,7 @@ class Metrics():
         results["acc"] = self.get_accuracy()
         results["auc"] = self.get_auc()
         results["prob_predictions"] = self.prob_predictions.tolist()
-        results["ground_truth"] = self.ground_truth.tolist()
+        results["ground_truth"] = self.categorical_ground_truth.tolist()
         return results
     
     def pprint(self):
