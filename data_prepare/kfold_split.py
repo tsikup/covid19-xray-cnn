@@ -15,12 +15,13 @@ kfoldDir = '/home/tsiknakisn/projects/covid19-xray/data/data/dataset/kfold'
 
 images_0 = glob(os.path.join(datasetDir, '0/*'))
 images_1 = glob(os.path.join(datasetDir, '1/*'))
-images = np.array(images_0 + images_1)
+images_2 = glob(os.path.join(datasetDir, '2/*'))
+images_3 = glob(os.path.join(datasetDir, '3/*'))
+images = np.array(images_0 + images_1 + images_2 + images_3)
 
 print("Images shape: {}".format(images.shape))
 
-labels = np.zeros(len(images_0))
-labels = np.concatenate((labels, np.ones(len(images_1))))
+labels = np.concatenate((np.zeros(len(images_0)), np.ones(len(images_1)), 2 * np.ones(len(images_2)), 3 * np.ones(len(images_3))))
 
 print("Labels shape: {}".format(labels.shape))
 
@@ -36,8 +37,13 @@ for train_index, test_index in skf.split(images, labels):
 
     Path(os.path.join(outputTrainDir, '0')).mkdir(parents=True, exist_ok=True)
     Path(os.path.join(outputTrainDir, '1')).mkdir(parents=True, exist_ok=True)
+    Path(os.path.join(outputTrainDir, '2')).mkdir(parents=True, exist_ok=True)
+    Path(os.path.join(outputTrainDir, '3')).mkdir(parents=True, exist_ok=True)
+    
     Path(os.path.join(outputTestDir, '0')).mkdir(parents=True, exist_ok=True)
     Path(os.path.join(outputTestDir, '1')).mkdir(parents=True, exist_ok=True)
+    Path(os.path.join(outputTestDir, '2')).mkdir(parents=True, exist_ok=True)
+    Path(os.path.join(outputTestDir, '3')).mkdir(parents=True, exist_ok=True)
 
     for idy, image in enumerate(X_train):
         try:
