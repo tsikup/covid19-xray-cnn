@@ -26,7 +26,7 @@ def process_config(json_file, dirs=True, config_copy=True):
     if(config.exp.name):
         config.callbacks.tensorboard_log_dir = os.path.join("experiments", config.exp.name, "logs/", time.strftime("%Y-%m-%d-%H-%M/",time.localtime()))
         config.callbacks.checkpoint_dir = os.path.join("experiments", config.exp.name, "checkpoints/", time.strftime("%Y-%m-%d-%H-%M/",time.localtime()))
-        if(config.mode == 'train'):
+        if(config.mode == 'train' or config.mode =='train_kfold'):
             config.results.performance_dir = os.path.join("experiments", config.exp.name, "results/online", time.strftime("%Y-%m-%d-%H-%M/",time.localtime()))
             if dirs:
                 print('Creating directories: {}, {}, {}'.format(config.callbacks.tensorboard_log_dir, config.callbacks.checkpoint_dir, config.results.performance_dir))
