@@ -58,6 +58,8 @@ class Metrics():
         results["pre"] = self.get_precision()
         results["acc"] = self.get_accuracy()
         results["auc"] = self.get_auc()
+        results["prob_predictions"] = self.prob_predictions.tolist()
+        results["ground_truth"] = self.ground_truth.tolist()
         return results
     
     def pprint(self):
