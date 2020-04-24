@@ -1,0 +1,31 @@
+{
+    "tester": {
+        "checkpoint_path": "experiments.3class/inception_covid_0/checkpoints/2020-04-24-23-20/inception_covid_0-20-0.41.hdf5"
+    },
+    "image": "data/data/dataset_3class/kfold/0/test/1/portugal-05.jpeg",
+    "model": {
+        "backbone": "inception",
+        "classifier": "zhang",
+        "loss": "categorical_crossentropy",
+        "learning_rate": 0.0001,
+        "optimizer": "adam",
+        "lr_schedule": "exp",
+        "resize_shape": [512,512],
+        "input_shape":[512,512,3]
+    },
+    "dataset": {
+        "train": "data/data/dataset_3class/kfold/0/train",
+        "test": "data/data/dataset_3class/kfold/0/test",
+        "class_mode": "categorical",
+        "classes": [0,1,2],
+	"color_mode": "rgb"
+    },
+    "devices":{
+        "gpus":[
+            1
+        ],
+        "gpu":{
+            "id":"3"
+        }
+    }
+}
