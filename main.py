@@ -5,7 +5,6 @@ from testers.covid_tester import *
 from utils.config import process_config
 from utils.utils import get_args
 from utils.gpus import set_gpus
-from sklearn.model_selection import StratifiedKFold
 
 import tensorflow as tf
 import os
