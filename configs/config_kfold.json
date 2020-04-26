@@ -1,11 +1,11 @@
 {
     "exp": {
-        "name": "inception_covid_1"
+        "name": "inception_covid_4"
     },
     "mode": "train",
     "mode_comment": "'eval' or 'train'",
     "tester": {
-        "checkpoint_path": ""
+        "checkpoint_path": "experiments/inception_covid_0/checkpoints/2020-04-24-14-26/inception_covid_0-16-0.00.hdf5"
     },
     "model": {
         "backbone": "inception",
@@ -27,16 +27,16 @@
     "callbacks": {
         "checkpoint_monitor": "val_loss",
         "checkpoint_mode": "auto",
-        "checkpoint_save_best_only": true,
+        "checkpoint_save_best_only": false,
         "checkpoint_save_weights_only": true,
         "checkpoint_verbose": true,
         "tensorboard_write_graph": true
     },
     "dataset": {
-        "train": "data/data/dataset/kfold/1/train",
-        "test": "data/data/dataset/kfold/1/test",
+        "train": "data/data/dataset_4class/kfold/4/train",
+        "test": "data/data/dataset_4class/kfold/4/test",
         "class_mode": "categorical",
-        "classes": [0,1],
+        "classes": [0,1,2,3],
 	"color_mode": "rgb"
     },
     "devices":{
