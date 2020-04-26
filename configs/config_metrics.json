@@ -1,0 +1,12 @@
+{
+    "results": {
+        "file": "experiments.4class/inception_covid_4/results/online/results.json",
+        "performance_dir": "experiments.4class/inception_covid_4/results/analysis"
+    },
+    "dataset": {
+        "class_mode": "categorical",
+        "classes": [0,1,2,3],
+        "target_names": ["NORMAL", "COVID", "PNEUMONIA BACTERIA", "PNEUMONIA VIRUS"],
+        "color_mode": "rgb"
+    }
+}
