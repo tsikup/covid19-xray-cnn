@@ -1,5 +1,5 @@
 from base.base_tester import BaseTester
-from metrics.metrics import Metrics
+from metrics.metrics import BinaryMetrics, MulticlassMetrics
 import os
 from tensorflow.keras.callbacks import ModelCheckpoint, TensorBoard
 import numpy as np
@@ -29,7 +29,10 @@ class COVIDModelTester(BaseTester):
         prob_predictions = np.reshape(prob_predictions, [-1, n_classes])
         categorical_ground_truth = np.reshape(categorical_ground_truth, [-1, n_classes])
         # Calculate and save confusion matrix and other metrics
-        metrics = Metrics(ground_truth, predictions, prob_predictions, self.config, categorical_ground_truth=categorical_ground_truth) # Create object's instance
+        if (len(self.config.dataset.classes) == 2):
+            metrics = BinaryMetrics(ground_truth, predictions, prob_predictions, self.config, categorical_ground_truth=categorical_ground_truth) # Create object's instance
+        else:
+            metrics = MulticlassMetrics(ground_truth, predictions, prob_predictions, self.config, categorical_ground_truth=categorical_ground_truth)
         if (save_metrics):
             metrics.pprint() # Print metrics
             metrics.save() # Save extended metrics
