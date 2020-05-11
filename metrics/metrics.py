@@ -13,14 +13,14 @@ class BinaryMetrics():
         self.categorical_ground_truth = categorical_ground_truth if categorical_ground_truth is not None else ground_truth
         self.prob_predictions = prob_predictions
         self.con_matrix = confusion_matrix(ground_truth, predictions)
-        self.classification_report = classification_report(ground_truth, predictions, target_names=self.config.dataset.target_names)
+        self.classification_report = classification_report(ground_truth, predictions, target_names=self.config.dataset.target_names, output_dict=True)
         self.analyze_con_matrix()
 
     def analyze_con_matrix(self):
-        self.tp = float(self.con_matrix[1][1])
-        self.fp = float(self.con_matrix[1][0])
         self.tn = float(self.con_matrix[0][0])
-        self.fn = float(self.con_matrix[0][1])
+        self.fp = float(self.con_matrix[0][1])
+        self.fn = float(self.con_matrix[1][0])
+        self.tp = float(self.con_matrix[1][1])
     
     def get_con_matrix(self):
         return self.con_matrix
@@ -57,12 +57,7 @@ class BinaryMetrics():
     
     def json(self):
         results = {} # Iniate dictionary for storing several metrics
-        results['confusion_matrix'] = {
-            "tp": self.get_tp(),
-            "fp": self.get_fp(),
-            "tn": self.get_tn(),
-            "fn": self.get_fn()
-        }        
+        results['confusion_matrix'] = self.get_con_matrix().tolist()
         results["spc"] = self.get_specificity()
         results["sen"] = self.get_sensitivity()
         results["pre"] = self.get_precision()
@@ -87,7 +82,8 @@ class BinaryMetrics():
             fp.write(results_json)
             fp.close()
         with open(os.path.join(self.config.results.performance_dir, 'classification_report.txt'), "w") as fp:
-            fp.write(self.classification_report)
+            report_json = json.dumps(self.classification_report)
+            fp.write(report_json)
             fp.close()
 
 class MulticlassMetrics():
@@ -97,21 +93,24 @@ class MulticlassMetrics():
         self.n_classes = len(self.config.dataset.classes)
         self.ground_truth = ground_truth
         self.prob_predictions = prob_predictions
+        self.basic_con_matrix = confusion_matrix(ground_truth, predictions)
         self.con_matrix = multilabel_confusion_matrix(ground_truth, predictions, labels=self.config.dataset.classes)
         self.categorical_ground_truth = categorical_ground_truth if categorical_ground_truth is not None else ground_truth
-        self.classification_report = classification_report(ground_truth, predictions, target_names=self.config.dataset.target_names)
+        self.classification_report = classification_report(ground_truth, predictions, target_names=self.config.dataset.target_names, output_dict=True)
         self.analyze_con_matrix()
 
     def analyze_con_matrix(self):
         self.basic_metrics = {}
         self.sensitivity = {}
         self.specificity = {}
+        self.precision = {}
+        self.accuracy = {}
         for i in range(self.n_classes):
             self.basic_metrics[i] = {
-                'tp' : float(self.con_matrix[i][1][1]),
-                'fp' : float(self.con_matrix[i][1][0]),
                 'tn' : float(self.con_matrix[i][0][0]),
-                'fn' : float(self.con_matrix[i][0][1])
+                'fp' : float(self.con_matrix[i][0][1]),
+                'fn' : float(self.con_matrix[i][1][0]),
+                'tp' : float(self.con_matrix[i][1][1])
             }
             tp = self.basic_metrics[i]['tp']
             fn = self.basic_metrics[i]['fn']
@@ -119,18 +118,26 @@ class MulticlassMetrics():
             fp = self.basic_metrics[i]['fp']
             self.specificity[i] = tn / (tn + fp + 1e-8)
             self.sensitivity[i] = tp / (tp + fn + 1e-8)
+            self.precision[i] = tp / (tp + fp + 1e-8)
+            self.accuracy[i] = (tp + tn) / (tp + tn + fn + fp + 1e-8)
 
     def get_basic_metrics(self):
         return self.basic_metrics
     
     def get_con_matrix(self):
-        return self.con_matrix
+        return self.basic_con_matrix
     
     def get_sensitivity(self):
         return self.sensitivity
     
     def get_specificity(self):
         return self.specificity
+    
+    def get_precision(self):
+        return self.precision
+
+    def get_accuracy(self):
+        return self.accuracy
 
     def get_auc(self):
         return roc_auc_score(self.categorical_ground_truth, self.prob_predictions, multi_class='ovr'), roc_auc_score(self.categorical_ground_truth, self.prob_predictions, multi_class='ovo') 
@@ -140,9 +147,11 @@ class MulticlassMetrics():
     
     def json(self):
         results = {} # Iniate dictionary for storing several metrics
-        results["confusion_matrix"] = self.con_matrix.tolist()
+        results["confusion_matrix"] = self.basic_con_matrix.tolist()
         results["spc"] = self.get_specificity()
         results["sen"] = self.get_sensitivity()
+        results["pre"] = self.get_precision()
+        results["acc"] = self.get_accuracy()
         results["auc_ovr"], results["auc_ovo"] = self.get_auc()
         if(self.include_raw_results == True):
             results["prob_predictions"] = self.prob_predictions.tolist()
@@ -162,5 +171,6 @@ class MulticlassMetrics():
             fp.write(results_json)
             fp.close()
         with open(os.path.join(self.config.results.performance_dir, 'classification_report.txt'), "w") as fp:
-            fp.write(self.classification_report)
+            report_json = json.dumps(self.classification_report)
+            fp.write(report_json)
             fp.close()

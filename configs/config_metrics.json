@@ -1,12 +1,14 @@
 {
     "results": {
-        "file": "experiments.4class/inception_covid_4/results/online/results.json",
-        "performance_dir": "experiments.4class/inception_covid_4/results/analysis"
+        "file": "experiments.2class/inception_covid_4/results/online/results.json",
+        "performance_dir": "experiments.2class/inception_covid_4/results/analysis"
     },
     "dataset": {
         "class_mode": "categorical",
-        "classes": [0,1,2,3],
-        "target_names": ["NORMAL", "COVID", "PNEUMONIA BACTERIA", "PNEUMONIA VIRUS"],
+        "classes": [0,1],
+        "target_names": ["PNEUMONIA", "COVID"],
+        "target_names_3": ["NORMAL", "COVID", "PNEUMONIA"],
+        "target_names_4": ["NORMAL", "COVID", "PNEUMONIA BACTERIA", "PNEUMONIA VIRUS"],
         "color_mode": "rgb"
     }
 }
