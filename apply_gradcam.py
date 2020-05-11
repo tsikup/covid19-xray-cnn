@@ -49,11 +49,11 @@ def main():
 		apply_gradcam(image_path)
 	elif os.path.isdir(imgpath):
 		files = glob.glob(os.path.join(imgpath,'*','*'))
-		for f in files:
+		for i, f in enumerate(files):
 			print(f)
-			apply_gradcam(f, args['output'], model, data_loader, config)
+			apply_gradcam(f, args['output'], model, data_loader, config, i+1)
 
-def apply_gradcam(image_path, output_path, model, data_loader, config):
+def apply_gradcam(image_path, output_path, model, data_loader, config, patientID):
 	# Load and preprocess image
 	orig = cv2.imread(image_path, cv2.IMREAD_COLOR)
 	resized = cv2.resize(orig, tuple(config.model.resize_shape))
@@ -77,18 +77,18 @@ def apply_gradcam(image_path, output_path, model, data_loader, config):
 	heatmap = cv2.resize(heatmap, (orig.shape[1], orig.shape[0]))
 	(heatmap, output) = cam.overlay_heatmap(heatmap, orig, alpha=0.5)
 
-	# draw the predicted label on the output image
-	cv2.rectangle(output, (0, 0), (340, 40), (0, 0, 0), -1)
-	cv2.putText(output, str(i), (10, 25), cv2.FONT_HERSHEY_SIMPLEX,
-		0.8, (255, 255, 255), 2)
+	## draw the predicted label on the output image
+	#cv2.rectangle(output, (0, 0), (340, 40), (0, 0, 0), -1)
+	#cv2.putText(output, str(i), (10, 25), cv2.FONT_HERSHEY_SIMPLEX,
+	#	0.8, (255, 255, 255), 2)
 
 	# display the original image and resulting heatmap and output image
 	# to our screen
-	output = np.vstack([orig, heatmap, output])
-	output = imutils.resize(output, height=1920)
+	output = np.hstack([orig, output])
+	output = imutils.resize(output, height=orig.shape[0])
 	outputDir = os.path.join(output_path, ground_truth)
 	Path(outputDir).mkdir(parents=True, exist_ok=True)
-	cv2.imwrite(os.path.join(outputDir, str(i) + '_' + os.path.basename(image_path)), output)
+	cv2.imwrite(os.path.join(outputDir, 'p' + str(patientID) + '_' + str(i) + '.png'), output)
 
 if __name__ == '__main__':
 	main()
