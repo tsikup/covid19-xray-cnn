@@ -1,12 +1,13 @@
-# COVID-19 X-ray CNN Classifier
+# Interpretable artificial intelligence framework for COVID‑19 screening on chest X‑rays
 
-The CNN model of our paper "TITLE", for predicting COVID19 from X-ray chest images against a) Pneumonia cases, b) Normal and Pneumonia cases and c) Normal, Bacterial Pneumonia and Viral Pneumonia cases.
+The CNN model of our paper "Interpretable artificial intelligence framework for COVID‑19 screening on chest X‑rays
+", for predicting COVID19 from X-ray chest images against a) Pneumonia cases, b) Normal and Pneumonia cases and c) Normal, Bacterial Pneumonia and Viral Pneumonia cases.
 
 Cite:
-REFERENCE
+Tsiknakis, N., Trivizakis, E., Vassalou, E. E., Papadakis, G. Z., Spandidos, D. A., Tsatsakis, A., Sánchez‑García, J., López‑González, R., Papanikolaou, N., Karantanas, A. H., Marias, K."Interpretable artificial intelligence framework for COVID‑19 screening on chest X‑rays". Experimental and Therapeutic Medicine 0, no. 0 (1898): 0-0. https://doi.org/10.3892/etm.2020.8797
 
 Link:
-URL
+[https://www.spandidos-publications.com/10.3892/etm.2020.8797](https://www.spandidos-publications.com/10.3892/etm.2020.8797)
 
 ## How to use
 ### Model Training/Testing
