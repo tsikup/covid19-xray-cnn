@@ -1,11 +1,12 @@
 {
+    "comment": "This is a simple configuration file, without kfold cross validation",
     "exp": {
-        "name": "inception_covid"
+        "name": "NAME"
     },
     "mode": "train",
     "mode_comment": "'eval' or 'train'",
     "tester": {
-        "checkpoint_path": "experiments/inception_covid/checkpoints/2020-04-23-11-16/inception_covid-16-0.00.hdf5"
+        "checkpoint_path": "/path/to/model.hdf5 if eval"
     },
     "model": {
         "backbone": "inception",
@@ -33,12 +34,14 @@
         "tensorboard_write_graph": true
     },
     "dataset": {
-        "train": "data/data/dataset/train",
-        "test": "data/data/dataset/test",
+        "comment": "The data need to be in their respective class' folder, i.e. train_data/0 for class 0, train_data/1 for class 1, etc.",
+        "train": "path/to/training/data",
+        "test": "path/to/testing/data",
         "class_mode": "categorical",
         "classes": [0,1],
 	"color_mode": "rgb"
     },
+    "devices_comment": "Which GPU to use, if you have only one then set id equal to 1. If you want to use more than one then you may have to tweak the code. I used only one GPU, namely the third (id:3).",
     "devices":{
         "gpus":[
             1

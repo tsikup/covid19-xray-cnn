@@ -1,12 +1,14 @@
 {
     "results": {
-        "file": "experiments.2class/inception_covid_4/results/online/results.json",
-        "performance_dir": "experiments.2class/inception_covid_4/results/analysis"
+        "file": "/path/to/results.json",
+        "performance_dir": "/output/folder/"
     },
     "dataset": {
         "class_mode": "categorical",
+        "comment": "You need to adjust the classes and target_names variables to match your desired setting (binary, ternary or quaternary.",
         "classes": [0,1],
         "target_names": ["PNEUMONIA", "COVID"],
+        "target_names_2": ["PNEUMONIA", "COVID"],
         "target_names_3": ["NORMAL", "COVID", "PNEUMONIA"],
         "target_names_4": ["NORMAL", "COVID", "PNEUMONIA BACTERIA", "PNEUMONIA VIRUS"],
         "color_mode": "rgb"

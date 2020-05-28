@@ -1,6 +1,6 @@
 {
     "tester": {
-        "checkpoint_path": "experiments.3class/inception_covid_0/checkpoints/2020-04-24-23-20/inception_covid_0-20-0.41.hdf5"
+        "checkpoint_path": "/path/to/model.hdf5"
     },
     "model": {
         "backbone": "inception",
@@ -20,12 +20,15 @@
         "callbacks": true
     },
     "dataset": {
-        "train": "data/data/dataset_3class/kfold/0/train",
-        "test": "data/data/dataset_3class/kfold/0/test",
+        "comment": "The data need to be in their respective class' folder, i.e. train_data/0 for class 0, train_data/1 for class 1, etc.",
+        "comment_2": "You will only use the testing data, but you also need to pass some dummy training data in order to make create the DataLoader instance. In a later version this will not be necessary.",
+        "train": "/path/to/training/data",
+        "test": "/path/to/testing/data",
         "class_mode": "categorical",
         "classes": [0,1,2],
 	"color_mode": "rgb"
     },
+    "devices_comment": "Which GPU to use, if you have only one then set id equal to 1. If you want to use more than one then you may have to tweak the code. I used only one GPU, namely the third (id:3).",
     "devices":{
         "gpus":[
             1
